@@ -18,7 +18,7 @@ export default function HomeScreen() {
         <View style={styles.accent} />
         <Text style={styles.title}>Crea tu CV Profesional</Text>
         <Text style={styles.subtitle}>Completa tus datos y destaca tu experiencia.</Text>
-      </ScrollView>
+      </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>1. Información Personal</Text>
@@ -71,7 +71,7 @@ export default function HomeScreen() {
           <Text style={styles.buttonText}>Ver Vista Previa del CV</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

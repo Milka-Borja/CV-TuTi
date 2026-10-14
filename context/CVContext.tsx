@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useContext, useState } from "react";
-import { CVData, Education, Experience, PersonalInfo } from "../types/cv.types";
+// context/CVContext.tsx
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import { CVData, PersonalInfo, Experience, Education } from "../types/cv.types";
 
 interface CVContextType {
   cvData: CVData;
@@ -10,6 +11,8 @@ interface CVContextType {
   addEducation: (edu: Education) => void;
   updateEducation: (id: string, edu: Education) => void;
   deleteEducation: (id: string) => void;
+  addSkill: (type: "hardSkills" | "softSkills", skill: string) => void;
+  deleteSkill: (type: "hardSkills" | "softSkills", index: number) => void;
 }
 
 const CVContext = createContext<CVContextType | undefined>(undefined);
@@ -22,9 +25,12 @@ export const CVProvider = ({ children }: { children: ReactNode }) => {
       phone: "",
       location: "",
       summary: "",
+      imageUri: "",
     },
     experiences: [],
     education: [],
+    hardSkills: [],
+    softSkills: [],
   });
 
   const updatePersonalInfo = (info: PersonalInfo) => {
@@ -73,6 +79,20 @@ export const CVProvider = ({ children }: { children: ReactNode }) => {
     }));
   };
 
+  const addSkill = (type: "hardSkills" | "softSkills", skill: string) => {
+    setCVData((prev) => ({
+      ...prev,
+      [type]: [...prev[type], skill],
+    }));
+  };
+
+  const deleteSkill = (type: "hardSkills" | "softSkills", index: number) => {
+    setCVData((prev) => ({
+      ...prev,
+      [type]: prev[type].filter((_, i) => i !== index),
+    }));
+  };
+
   return (
     <CVContext.Provider
       value={{
@@ -84,6 +104,8 @@ export const CVProvider = ({ children }: { children: ReactNode }) => {
         addEducation,
         updateEducation,
         deleteEducation,
+        addSkill,
+        deleteSkill,
       }}
     >
       {children}
@@ -98,4 +120,3 @@ export const useCVContext = () => {
   }
   return context;
 };
-
